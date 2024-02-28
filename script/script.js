@@ -26,6 +26,9 @@ const displayPhone = (phones) => {
   }
 
 
+  phones = phones.slice(0,6);
+
+
   phones.map((phone) => {
     const { phone_name, image } = phone;
 
@@ -47,12 +50,28 @@ const displayPhone = (phones) => {
     `;
   cardContainer.appendChild(cardDiv);
   });
+  toggleLoadingSpinner(false);
 };
 
 
 // handle search function
 const handleSearch = () => {
+  // to display loader
+  toggleLoadingSpinner(true);
   const searchText = searchEl.value;
   loadPhone(searchText);
 
+}
+
+
+// to display and hide loading ...
+const toggleLoadingSpinner = (isLoading) =>{
+  const loaderEl = document.getElementById('loader');
+
+  if(isLoading){
+  loaderEl.classList.remove('hidden');
+  }else{
+  loaderEl.classList.add('hidden');
+
+  }
 }
