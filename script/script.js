@@ -29,7 +29,7 @@ const displayPhone = (phones, isShowAll) => {
 
 
   phones.map((phone) => {
-    const { phone_name, image } = phone;
+    const { phone_name, image, slug } = phone;
 
     // created single card container div
     const cardDiv = document.createElement("div");
@@ -42,7 +42,7 @@ const displayPhone = (phones, isShowAll) => {
             <h4 class="font-semibold text-base md:text-xl lg:text-2xl text-gray-700">${phone_name}</h4>
             <p class="mt-3">There are many variations of passages of available, but the majority have suffered</p>
             <p class="mt-2 font-bold text-base md:text-lg lg:text-xl text-gray-700">$ 999</p>
-            <button
+            <button onclick="showDetails('${slug}'); my_modal.showModal()" 
               class="text-white font-semibold py-2 md:py-2 px-6 w-full bg-blue-600 rounded-md cursor-pointer hover:bg-blue-500 mt-6"> show
             details</button>
           </div>
@@ -51,6 +51,56 @@ const displayPhone = (phones, isShowAll) => {
   });
   toggleLoadingSpinner(false);
 };
+
+// show details
+const showDetails = async (id) => {
+  // load single phone data
+  const url = `https://openapi.programming-hero.com/api/phone/${id}`;
+  const res = await fetch(url);
+  const data = await res.json();
+  console.log(data.data);
+
+  // show modal
+  handleModal(data.data);
+}
+
+// show Modal
+const handleModal = (data) => {
+  console.log(data);
+  const {image, name, mainFeatures, slug, releaseDate, brand, others} = data;
+  console.log(name,);
+
+  const modalContainer = document.getElementById('my_modal');
+  const newDiv = document.createElement('div');
+  newDiv.classList.add('modal-box');
+  newDiv.innerHTML = `
+
+    <div class="bg-gray-200 flex justify-center py-4">
+    <img src="${image}" alt="${name}">
+    </div>
+    <h3 class="font-bold text-xl mt-4">${name}</h3>
+    <p class="py-4 text-justify text-sm mt-2">It is a long established fact that a reader will be distracted..</p>
+      <h5><span class="font-bold">Storage : </span> ${mainFeatures.storage}</h5>
+      <h5><span class="font-bold">Display Size : </span> ${mainFeatures.displaySize}</h5>
+      <h5><span class="font-bold">Chipset : </span> ${mainFeatures.chipSet}</h5>
+      <h5><span class="font-bold">Memory : </span> ${mainFeatures.memory}</h5>
+      <h5><span class="font-bold">Slug : </span> ${slug}</h5>
+      <h5><span class="font-bold">Release Data : </span> ${releaseDate}</h5>
+      <h5><span class="font-bold">Brand : </span> ${brand}</h5>
+      <h5><span class="font-bold">GPS : </span> ${others.GPS}</h5>
+
+    <div class="modal-action">
+      <form method="dialog">
+
+        <button class="text-white font-semibold py-2 md:py-2 px-6 w-full bg-blue-600 rounded-md cursor-pointer hover:bg-blue-500">Close</button>
+      </form>
+    </div>
+  `;
+  modalContainer.appendChild(newDiv);
+
+
+} 
+
 
 
 // handle search function
