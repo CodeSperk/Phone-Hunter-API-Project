@@ -17,6 +17,14 @@ const displayPhone = (phones) => {
   // clear before  new display
   cardContainer.innerHTML = '';
 
+  // display show all button if there are more than 12 phones 
+  const showAllButton = document.getElementById('show-all-btn');
+  if(phones.length > 12){
+    showAllButton.classList.remove('hidden');
+  }else{
+    showAllButton.classList.add('hidden');
+  }
+
 
   phones.map((phone) => {
     const { phone_name, image } = phone;
