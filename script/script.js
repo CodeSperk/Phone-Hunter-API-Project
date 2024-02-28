@@ -1,15 +1,13 @@
 const searchEl = document.getElementById('search-input');
 
 // load api data
-const loadPhone = async (searchId, isShowAll) => {
+const loadPhone = async (searchId = "a", isShowAll) => {
   const apiUrl =
     `https://openapi.programming-hero.com/api/phones?search=${searchId}`;
   const res = await fetch(apiUrl);
   const data = await res.json();
   displayPhone(data.data, isShowAll);
 };
-
-
 
 // display phone
 const displayPhone = (phones, isShowAll) => {
@@ -25,8 +23,7 @@ const displayPhone = (phones, isShowAll) => {
   }else{
     showAllButton.classList.add('hidden');
   }
-
-
+ 
 
   phones.map((phone) => {
     const { phone_name, image, slug } = phone;
@@ -63,6 +60,8 @@ const showDetails = async (id) => {
   // show modal
   handleModal(data.data);
 }
+// for initial load
+
 
 // show Modal
 const handleModal = (data) => {
@@ -129,3 +128,6 @@ const toggleLoadingSpinner = (isLoading) =>{
 const handleShowAll = () => {
   handleSearch(true);
 }
+
+ // to display phone initially
+ loadPhone();
