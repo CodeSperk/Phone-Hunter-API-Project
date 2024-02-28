@@ -1,17 +1,23 @@
+const searchEl = document.getElementById('search-input');
+
 // load api data
-const loadPhone = async () => {
+const loadPhone = async (searchId) => {
   const apiUrl =
-    "https://openapi.programming-hero.com/api/phones?search=iphone";
+    `https://openapi.programming-hero.com/api/phones?search=${searchId}`;
   const res = await fetch(apiUrl);
   const data = await res.json();
   displayPhone(data.data);
 };
 
-loadPhone();
+
 
 // display phone
 const displayPhone = (phones) => {
   const cardContainer = document.getElementById("products-container");
+  // clear before  new display
+  cardContainer.innerHTML = '';
+
+
   phones.map((phone) => {
     const { phone_name, image } = phone;
 
@@ -34,3 +40,11 @@ const displayPhone = (phones) => {
   cardContainer.appendChild(cardDiv);
   });
 };
+
+
+// handle search function
+const handleSearch = () => {
+  const searchText = searchEl.value;
+  loadPhone(searchText);
+
+}
